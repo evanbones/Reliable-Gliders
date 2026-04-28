@@ -49,10 +49,8 @@ public class GliderItem extends Item {
 
         if (isGliding) {
             if (!wasGliding) {
-                if (!level.isClientSide()) {
-                    level.playSound(null, player.blockPosition(),
-                            SoundEvents.ARMOR_EQUIP_LEATHER.value(), SoundSource.PLAYERS, 1.0f, 0.85f);
-                }
+                level.playSound(player, player.blockPosition(),
+                        SoundEvents.ARMOR_EQUIP_LEATHER.value(), SoundSource.PLAYERS, 1.0f, 0.85f);
             }
 
             GlidingState.setGliding(player, true);
