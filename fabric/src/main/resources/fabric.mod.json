@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${version}",
+  "name": "${mod_name}",
+  "description": "${description}",
+  "authors": [
+    "${mod_author}"
+  ],
+  "contact": {
+    "homepage": "https://github.com/evanbones/Reliable-Gliders",
+    "sources": "https://github.com/evanbones/Reliable-Gliders"
+  },
+  "license": "${license}",
+  "icon": "${mod_id}.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.evandev.reliable_gliders.ReliableGliders"
+    ],
+    "client": [
+      "com.evandev.reliable_gliders.client.ReliableGlidersClient"
+    ],
+    "modmenu": [
+      "com.evandev.reliable_gliders.compat.ModMenuIntegration"
+    ],
+    "fabric-datagen": [
+      "com.evandev.reliable_gliders.datagen.TemplateDataGenerator"
+    ]
+  },
+  "mixins": [
+    "${mod_id}.mixins.json",
+    "${mod_id}.fabric.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}",
+    "java": ">=21"
+  }
+}
