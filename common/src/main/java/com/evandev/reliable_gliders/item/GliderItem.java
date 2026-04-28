@@ -4,8 +4,10 @@ import com.evandev.reliable_gliders.api.GlidingState;
 import com.evandev.reliable_gliders.config.ModConfig;
 import com.evandev.reliable_gliders.registry.ModTags;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -56,10 +58,20 @@ public class GliderItem extends Item {
             GlidingState.setGliding(player, true);
             player.fallDistance = 0.0F;
 
+            if (player instanceof ServerPlayer serverPlayer) {
+                serverPlayer.connection.aboveGroundTickCount = 0;
+                serverPlayer.connection.aboveGroundVehicleTickCount = 0;
+            }
+
+            double currentY = player.getDeltaMovement().y;
+
             if (hasUpdraft(player)) {
-                player.setDeltaMovement(player.getDeltaMovement().x, ModConfig.get().updraftStrength, player.getDeltaMovement().z);
+                double newY = Math.max(currentY, ModConfig.get().updraftStrength);
+                newY = Mth.lerp(0.2, currentY, newY);
+
+                player.setDeltaMovement(player.getDeltaMovement().x, newY, player.getDeltaMovement().z);
             } else {
-                player.setDeltaMovement(player.getDeltaMovement().x, Math.max(player.getDeltaMovement().y, -0.15), player.getDeltaMovement().z);
+                player.setDeltaMovement(player.getDeltaMovement().x, Math.max(currentY, -0.05), player.getDeltaMovement().z);
             }
 
             if (!level.isClientSide() && level.getGameTime() % 20 == 0) {
