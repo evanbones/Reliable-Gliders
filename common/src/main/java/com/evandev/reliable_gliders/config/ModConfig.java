@@ -16,8 +16,8 @@ public class ModConfig {
     private static final File CONFIG_FILE = Services.PLATFORM.getConfigDirectory().resolve("reliable_gliders.json").toFile();
     private static ModConfig INSTANCE;
 
-    @SerializedName("enabled")
-    public boolean enabled = true;
+    @SerializedName("updraft_strength")
+    public double updraftStrength = 0.7;
 
     public static ModConfig get() {
         if (INSTANCE == null) {

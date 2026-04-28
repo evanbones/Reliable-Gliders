@@ -1,4 +1,8 @@
 {
   "config.reliable_gliders.title": "Reliable Gliders Config",
-  "config.reliable_gliders.category.general": "General"
+  "config.reliable_gliders.category.general": "General",
+  "config.reliable_gliders.updraft_strength": "Updraft Strength",
+  "config.reliable_gliders.updraft_strength.tooltip": "How fast the player rises when over an updraft block.",
+
+  "item.reliable_gliders.glider": "Glider"
 }

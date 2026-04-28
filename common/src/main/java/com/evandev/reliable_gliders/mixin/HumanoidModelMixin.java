@@ -1,6 +1,6 @@
 package com.evandev.reliable_gliders.mixin;
 
-import com.evandev.reliable_gliders.item.GliderItem;
+import com.evandev.reliable_gliders.api.GlidingState;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -14,10 +14,8 @@ public class HumanoidModelMixin<T extends LivingEntity> {
     @Inject(method = "setupAnim(Lnet/minecraft/world/entity/LivingEntity;FFFFF)V", at = @At("TAIL"))
     private void reliableGliders$setupGliderAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, CallbackInfo ci) {
         if (entity instanceof Player player) {
-            boolean holdingGlider = player.getMainHandItem().getItem() instanceof GliderItem
-                    || player.getOffhandItem().getItem() instanceof GliderItem;
 
-            if (holdingGlider && !player.onGround() && !player.isFallFlying() && player.getDeltaMovement().y < 0) {
+            if (GlidingState.isGliding(player)) {
                 HumanoidModel<?> model = (HumanoidModel<?>) (Object) this;
 
                 model.rightArm.xRot = (float) Math.PI;

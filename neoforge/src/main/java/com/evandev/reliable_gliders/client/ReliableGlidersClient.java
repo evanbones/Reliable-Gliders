@@ -1,6 +1,7 @@
 package com.evandev.reliable_gliders.client;
 
 import com.evandev.reliable_gliders.Constants;
+import com.evandev.reliable_gliders.api.GlidingState;
 import com.evandev.reliable_gliders.client.integration.ClothConfigIntegration;
 import com.evandev.reliable_gliders.platform.Services;
 import com.evandev.reliable_gliders.registry.ModItems;
@@ -32,11 +33,8 @@ public class ReliableGlidersClient {
         event.enqueueWork(() -> {
             ItemProperties.register(ModItems.GLIDER, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "gliding"),
                     (stack, level, entity, seed) -> {
-                        if (entity instanceof Player player) {
-                            boolean isHolding = player.getMainHandItem() == stack || player.getOffhandItem() == stack;
-                            if (isHolding && !player.onGround() && !player.isFallFlying() && player.getDeltaMovement().y < 0) {
-                                return 1.0F;
-                            }
+                        if (entity instanceof Player player && GlidingState.isGliding(player)) {
+                            return 1.0F;
                         }
                         return 0.0F;
                     });

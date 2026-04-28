@@ -21,6 +21,14 @@ public class ClothConfigIntegration {
         ConfigCategory general = builder.getOrCreateCategory(Component.translatable("config.reliable_gliders.category.general"));
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();
 
+        general.addEntry(entryBuilder.startDoubleField(Component.translatable("config.reliable_gliders.updraft_strength"), config.updraftStrength)
+                .setDefaultValue(0.7)
+                .setMin(0.0)
+                .setMax(5.0)
+                .setTooltip(Component.translatable("config.reliable_gliders.updraft_strength.tooltip"))
+                .setSaveConsumer(newValue -> config.updraftStrength = newValue)
+                .build());
+
         return builder.build();
     }
 }
