@@ -6,8 +6,7 @@
   "mixins": [
   ],
   "client": [
-    "HumanoidModelMixin",
-    "ItemRendererMixin"
+    "HumanoidModelMixin"
   ],
   "server": [],
   "injectors": {

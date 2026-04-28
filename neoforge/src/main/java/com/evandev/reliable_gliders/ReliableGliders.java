@@ -2,8 +2,7 @@ package com.evandev.reliable_gliders;
 
 import com.evandev.reliable_gliders.client.ReliableGlidersClient;
 import com.evandev.reliable_gliders.registry.ModItems;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -17,8 +16,8 @@ import net.neoforged.neoforge.registries.RegisterEvent;
 public class ReliableGliders {
     public ReliableGliders(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
-        modEventBus.addListener(this::registerItems);
         modEventBus.addListener(this::buildContents);
+        modEventBus.addListener(this::onRegister);
 
         if (FMLEnvironment.dist.isClient()) {
             ReliableGlidersClient.register(modContainer, modEventBus);
@@ -29,10 +28,10 @@ public class ReliableGliders {
         CommonClass.init();
     }
 
-    private void registerItems(RegisterEvent event) {
-        event.register(BuiltInRegistries.ITEM.key(), helper -> {
-            helper.register(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "glider"), ModItems.GLIDER);
-        });
+    private void onRegister(RegisterEvent event) {
+        if (event.getRegistryKey().equals(Registries.ITEM)) {
+            ModItems.init();
+        }
     }
 
     private void buildContents(BuildCreativeModeTabContentsEvent event) {

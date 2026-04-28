@@ -1,6 +1,14 @@
 {
-  "parent": "minecraft:item/generated",
+  "parent": "item/generated",
   "textures": {
     "layer0": "reliable_gliders:item/glider_icon"
-  }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "reliable_gliders:gliding": 1
+      },
+      "model": "reliable_gliders:item/glider_3d"
+    }
+  ]
 }

@@ -1,8 +1,11 @@
 package com.evandev.reliable_gliders.platform;
 
+import com.evandev.reliable_gliders.content.FabricGliderItem;
+import com.evandev.reliable_gliders.item.GliderItem;
 import com.evandev.reliable_gliders.platform.services.IPlatformHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.world.item.Item;
 
 import java.nio.file.Path;
 
@@ -30,5 +33,10 @@ public class FabricPlatformHelper implements IPlatformHelper {
     @Override
     public boolean isPhysicalClient() {
         return FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT;
+    }
+
+    @Override
+    public GliderItem createGliderItem(Item.Properties properties) {
+        return new FabricGliderItem(properties);
     }
 }

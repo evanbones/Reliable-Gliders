@@ -1,6 +1,9 @@
 package com.evandev.reliable_gliders.platform;
 
+import com.evandev.reliable_gliders.content.NeoForgeGliderItem;
+import com.evandev.reliable_gliders.item.GliderItem;
 import com.evandev.reliable_gliders.platform.services.IPlatformHelper;
+import net.minecraft.world.item.Item;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLLoader;
@@ -33,5 +36,10 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     @Override
     public boolean isPhysicalClient() {
         return FMLLoader.getDist() == Dist.CLIENT;
+    }
+
+    @Override
+    public GliderItem createGliderItem(Item.Properties properties) {
+        return new NeoForgeGliderItem(properties);
     }
 }

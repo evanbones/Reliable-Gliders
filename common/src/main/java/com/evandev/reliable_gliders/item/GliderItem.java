@@ -26,7 +26,7 @@ public class GliderItem extends Item {
 
         if (isHolding && !player.onGround() && !player.isFallFlying() && player.getDeltaMovement().y < 0) {
 
-            if (player.fallDistance >= 1.0F) {
+            if (player.fallDistance > 0.0F) {
                 level.playSound(null, player.getX(), player.getY(), player.getZ(),
                         SoundEvents.ARMOR_EQUIP_LEATHER.value(), SoundSource.PLAYERS, 1.0f, 0.85f);
             }

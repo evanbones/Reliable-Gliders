@@ -1,5 +1,8 @@
 package com.evandev.reliable_gliders.platform.services;
 
+import com.evandev.reliable_gliders.item.GliderItem;
+import net.minecraft.world.item.Item;
+
 import java.nio.file.Path;
 
 public interface IPlatformHelper {
@@ -44,7 +47,10 @@ public interface IPlatformHelper {
 
     /**
      * Checks if the code is running on the physical client.
+     *
      * @return True if on the client, false if on a dedicated server.
      */
     boolean isPhysicalClient();
+
+    GliderItem createGliderItem(Item.Properties properties);
 }
