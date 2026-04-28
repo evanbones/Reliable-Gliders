@@ -14,16 +14,24 @@ public class HumanoidModelMixin<T extends LivingEntity> {
     @Inject(method = "setupAnim(Lnet/minecraft/world/entity/LivingEntity;FFFFF)V", at = @At("TAIL"))
     private void reliableGliders$setupGliderAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, CallbackInfo ci) {
         if (entity instanceof Player player) {
-
             if (GlidingState.isGliding(player)) {
                 HumanoidModel<?> model = (HumanoidModel<?>) (Object) this;
 
+                // Lock Arms
                 model.rightArm.xRot = (float) Math.PI;
                 model.leftArm.xRot = (float) Math.PI;
                 model.rightArm.yRot = 0;
                 model.leftArm.yRot = 0;
                 model.rightArm.zRot = 0;
                 model.leftArm.zRot = 0;
+
+                // Lock Legs
+                model.rightLeg.xRot = 0.1F;
+                model.leftLeg.xRot = 0.1F;
+                model.rightLeg.yRot = 0;
+                model.leftLeg.yRot = 0;
+                model.rightLeg.zRot = 0;
+                model.leftLeg.zRot = 0;
             }
         }
     }

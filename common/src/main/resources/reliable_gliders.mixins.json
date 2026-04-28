@@ -4,9 +4,12 @@
   "package": "com.evandev.reliable_gliders.mixin",
   "compatibilityLevel": "JAVA_18",
   "mixins": [
+    "LivingEntityMixin"
   ],
   "client": [
-    "HumanoidModelMixin"
+    "HumanoidModelMixin",
+    "ItemRendererMixin",
+    "LocalPlayerMixin"
   ],
   "server": [],
   "injectors": {
