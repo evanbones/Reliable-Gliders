@@ -17,7 +17,7 @@ public class HumanoidModelMixin<T extends LivingEntity> {
             if (GlidingState.isGliding(player)) {
                 HumanoidModel<?> model = (HumanoidModel<?>) (Object) this;
 
-                // Lock Arms
+                // Lock arms
                 model.rightArm.xRot = (float) Math.PI;
                 model.leftArm.xRot = (float) Math.PI;
                 model.rightArm.yRot = 0;
@@ -25,9 +25,12 @@ public class HumanoidModelMixin<T extends LivingEntity> {
                 model.rightArm.zRot = 0;
                 model.leftArm.zRot = 0;
 
-                // Lock Legs
-                model.rightLeg.xRot = 0.1F;
-                model.leftLeg.xRot = 0.1F;
+                // Subtle leg sway
+                float legSway = (float) Math.sin(ageInTicks * 0.1F) * 0.1F;
+
+                model.rightLeg.xRot = 0.1F + legSway;
+                model.leftLeg.xRot = 0.1F - legSway;
+
                 model.rightLeg.yRot = 0;
                 model.leftLeg.yRot = 0;
                 model.rightLeg.zRot = 0;

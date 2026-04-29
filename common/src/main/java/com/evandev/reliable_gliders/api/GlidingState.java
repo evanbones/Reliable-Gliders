@@ -2,6 +2,7 @@ package com.evandev.reliable_gliders.api;
 
 import com.evandev.reliable_gliders.item.GliderItem;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.AABB;
 
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -37,6 +38,18 @@ public class GlidingState {
             return true;
         }
 
-        return player.getDeltaMovement().y < 0 || GliderItem.hasUpdraft(player);
+        boolean isFalling = player.getDeltaMovement().y < 0;
+        boolean hasUpdraft = GliderItem.hasUpdraft(player);
+
+        if (isFalling && !hasUpdraft) {
+            AABB clearanceBox = player.getBoundingBox().move(0, -2, 0).inflate(-0.1, 0, -0.1);
+            boolean hasClearance = player.level().noCollision(player, clearanceBox);
+
+            if (!hasClearance) {
+                return false;
+            }
+        }
+
+        return isFalling || hasUpdraft;
     }
 }
