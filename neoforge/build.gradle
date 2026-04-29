@@ -39,7 +39,7 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 dependencies {
     // EMI
-    runtimeOnly "dev.emi:emi-neoforge:${emi_version}"
+    implementation "dev.emi:emi-neoforge:${emi_version}"
 
     // Cloth Config
     implementation "me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}"

@@ -7,11 +7,14 @@
     },
     "S": {
       "item": "minecraft:stick"
+    },
+    "L": {
+      "item": "minecraft:leather"
     }
   },
   "pattern": [
-    "MMM",
-    "MSM",
+    "MLM",
+    "LSL",
     "S S"
   ],
   "result": {

@@ -29,6 +29,14 @@ public class ClothConfigIntegration {
                 .setSaveConsumer(newValue -> config.updraftStrength = newValue)
                 .build());
 
+        general.addEntry(entryBuilder.startIntField(Component.translatable("config.reliable_gliders.updraft_height"), config.updraftHeight)
+                .setDefaultValue(15)
+                .setMin(1)
+                .setMax(384)
+                .setTooltip(Component.translatable("config.reliable_gliders.updraft_height.tooltip"))
+                .setSaveConsumer(newValue -> config.updraftHeight = newValue)
+                .build());
+
         return builder.build();
     }
 }

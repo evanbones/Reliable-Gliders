@@ -12,6 +12,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -23,7 +24,9 @@ public class GliderItem extends Item {
 
     public static boolean hasUpdraft(Player player) {
         Level level = player.level();
-        for (int i = 1; i <= 15; i++) {
+        int maxHeight = ModConfig.get().updraftHeight;
+
+        for (int i = 1; i <= maxHeight; i++) {
             BlockPos checkPos = player.blockPosition().below(i);
             BlockState state = level.getBlockState(checkPos);
 
@@ -34,6 +37,11 @@ public class GliderItem extends Item {
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean isValidRepairItem(@NotNull ItemStack pToRepair, @NotNull ItemStack pRepair) {
+        return pRepair.is(ModTags.Items.GLIDER_REPAIR_ITEMS) || super.isValidRepairItem(pToRepair, pRepair);
     }
 
     @Override

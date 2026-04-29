@@ -19,6 +19,9 @@ public class ModConfig {
     @SerializedName("updraft_strength")
     public double updraftStrength = 0.7;
 
+    @SerializedName("updraft_height")
+    public int updraftHeight = 15;
+
     public static ModConfig get() {
         if (INSTANCE == null) {
             load();

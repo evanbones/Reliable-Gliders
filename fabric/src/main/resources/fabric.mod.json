@@ -27,6 +27,9 @@
     ],
     "fabric-datagen": [
       "com.evandev.reliable_gliders.datagen.TemplateDataGenerator"
+    ],
+    "emi": [
+      "com.evandev.reliable_gliders.compat.emi.ReliableGlidersEmiPlugin"
     ]
   },
   "mixins": [

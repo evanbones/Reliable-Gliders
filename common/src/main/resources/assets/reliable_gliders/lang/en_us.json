@@ -3,6 +3,9 @@
   "config.reliable_gliders.category.general": "General",
   "config.reliable_gliders.updraft_strength": "Updraft Strength",
   "config.reliable_gliders.updraft_strength.tooltip": "How fast the player rises when over an updraft block.",
+  "config.reliable_gliders.updraft_height": "Updraft Height",
+  "config.reliable_gliders.updraft_height.tooltip": "How high updrafts are created above fire.",
+  "tag.item.reliable_gliders.glider_repair_items": "Glider Repair Items",
 
   "item.reliable_gliders.glider": "Glider"
 }
