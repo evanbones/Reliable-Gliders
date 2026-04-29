@@ -7,12 +7,15 @@ import com.evandev.reliable_gliders.platform.Services;
 import com.evandev.reliable_gliders.registry.ModItems;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.component.DyedItemColor;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
 public class ReliableGlidersClient {
@@ -23,6 +26,7 @@ public class ReliableGlidersClient {
 
         modEventBus.addListener(ReliableGlidersClient::onModelRegister);
         modEventBus.addListener(ReliableGlidersClient::onClientSetup);
+        modEventBus.addListener(ReliableGlidersClient::onItemColors);
     }
 
     public static void onModelRegister(ModelEvent.RegisterAdditional event) {
@@ -39,5 +43,15 @@ public class ReliableGlidersClient {
                         return 0.0F;
                     });
         });
+    }
+
+    public static void onItemColors(RegisterColorHandlersEvent.Item event) {
+        event.register((stack, tintIndex) -> {
+            if (tintIndex == 0) {
+                DyedItemColor color = stack.get(DataComponents.DYED_COLOR);
+                return color != null ? (0xFF000000 | color.rgb()) : -1;
+            }
+            return -1;
+        }, ModItems.GLIDER);
     }
 }
