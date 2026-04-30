@@ -2,6 +2,7 @@
 	"format_version": "1.21.11",
 	"credit": "Made with Blockbench",
 	"textures": {
+		"particle": "reliable_gliders:item/glider_fabric",
 		"1": "reliable_gliders:item/glider_fabric",
 		"2": "reliable_gliders:item/glider_frame"
 	},

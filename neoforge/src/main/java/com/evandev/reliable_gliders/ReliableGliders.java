@@ -19,7 +19,7 @@ public class ReliableGliders {
         modEventBus.addListener(this::buildContents);
         modEventBus.addListener(this::onRegister);
 
-        if (FMLEnvironment.dist.isClient()) {
+        if (FMLEnvironment.getDist().isClient()) {
             ReliableGlidersClient.register(modContainer, modEventBus);
         }
     }

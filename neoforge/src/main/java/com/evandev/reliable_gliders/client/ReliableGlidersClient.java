@@ -6,9 +6,9 @@ import com.evandev.reliable_gliders.client.integration.ClothConfigIntegration;
 import com.evandev.reliable_gliders.platform.Services;
 import com.evandev.reliable_gliders.registry.ModItems;
 import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.resources.model.ModelIdentifier;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.neoforged.bus.api.IEventBus;
@@ -30,12 +30,12 @@ public class ReliableGlidersClient {
     }
 
     public static void onModelRegister(ModelEvent.RegisterAdditional event) {
-        event.register(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "item/glider_3d")));
+        event.register(ModelIdentifier.standalone(Identifier.fromNamespaceAndPath(Constants.MOD_ID, "item/glider_3d")));
     }
 
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
-            ItemProperties.register(ModItems.GLIDER, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "gliding"),
+            ItemProperties.register(ModItems.GLIDER, Identifier.fromNamespaceAndPath(Constants.MOD_ID, "gliding"),
                     (stack, level, entity, seed) -> {
                         if (entity instanceof Player player && GlidingState.isGliding(player)) {
                             return 1.0F;

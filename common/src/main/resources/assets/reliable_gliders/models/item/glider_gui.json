@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "reliable_gliders:item/glider_icon_fabric",
+    "layer1": "reliable_gliders:item/glider_icon_frame"
+  }
+}

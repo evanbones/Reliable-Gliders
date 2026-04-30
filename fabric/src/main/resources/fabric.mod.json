@@ -19,17 +19,11 @@
     "main": [
       "com.evandev.reliable_gliders.ReliableGliders"
     ],
-    "client": [
-      "com.evandev.reliable_gliders.client.ReliableGlidersClient"
-    ],
     "modmenu": [
       "com.evandev.reliable_gliders.compat.ModMenuIntegration"
     ],
     "fabric-datagen": [
       "com.evandev.reliable_gliders.datagen.TemplateDataGenerator"
-    ],
-    "emi": [
-      "com.evandev.reliable_gliders.compat.emi.ReliableGlidersEmiPlugin"
     ]
   },
   "mixins": [
@@ -37,9 +31,12 @@
     "${mod_id}.fabric.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.14",
-    "fabric": "*",
-    "minecraft": "${minecraft_version}",
-    "java": ">=21"
+    "fabricloader": ">=${fabric_loader_version}",
+    "fabric-api": "*",
+    "minecraft": ">=26.1 <=26.2",
+    "java": ">=${java_version}"
+  },
+  "suggests": {
+    "cloth-config": "*"
   }
 }

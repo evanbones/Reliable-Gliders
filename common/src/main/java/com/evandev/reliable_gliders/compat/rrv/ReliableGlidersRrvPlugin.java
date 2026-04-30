@@ -1,3 +1,4 @@
+/*
 package com.evandev.reliable_gliders.compat.emi;
 
 import com.evandev.reliable_gliders.Constants;
@@ -23,4 +24,4 @@ public class ReliableGlidersEmiPlugin implements EmiPlugin {
 
         registry.addRecipe(new EmiAnvilRecipe(tool, resource, recipeId));
     }
-}
+}*/

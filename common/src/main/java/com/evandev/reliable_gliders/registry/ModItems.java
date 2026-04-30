@@ -4,7 +4,9 @@ import com.evandev.reliable_gliders.Constants;
 import com.evandev.reliable_gliders.platform.Services;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 
 public class ModItems {
@@ -12,8 +14,17 @@ public class ModItems {
     public static Item GLIDER;
 
     public static void init() {
-        GLIDER = Services.PLATFORM.createGliderItem(new Item.Properties().durability(400));
+        ResourceKey<Item> gliderKey = ResourceKey.create(
+                Registries.ITEM,
+                Identifier.fromNamespaceAndPath(Constants.MOD_ID, "glider")
+        );
 
-        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "glider"), GLIDER);
+        GLIDER = Services.PLATFORM.createGliderItem(new Item.Properties()
+                .setId(gliderKey)
+                .durability(400)
+                .repairable(ModTags.Items.GLIDER_REPAIR_ITEMS)
+        );
+
+        Registry.register(BuiltInRegistries.ITEM, gliderKey.identifier(), GLIDER);
     }
 }
