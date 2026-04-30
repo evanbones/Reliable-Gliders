@@ -1,1 +1,3 @@
-- Ported to 26.1.
+### Fixed
+
+- Fixed Gliders not displaying properly in multiplayer.
