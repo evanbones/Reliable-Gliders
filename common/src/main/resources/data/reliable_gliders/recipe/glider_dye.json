@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_dye",
+  "category": "equipment",
+  "target": "reliable_gliders:glider",
+  "dye": "#minecraft:dyes",
+  "result": {
+    "id": "reliable_gliders:glider"
+  }
+}
