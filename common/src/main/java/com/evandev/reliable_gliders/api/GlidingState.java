@@ -38,18 +38,23 @@ public class GlidingState {
             return true;
         }
 
-        boolean isFalling = player.getDeltaMovement().y < 0;
+        boolean isFalling = player.getDeltaMovement().y < 0 || (player.level().isClientSide() && player.getY() < player.yOld);
         boolean hasUpdraft = GliderItem.hasUpdraft(player);
 
         if (isFalling && !hasUpdraft) {
             AABB clearanceBox = player.getBoundingBox().move(0, -2, 0).inflate(-0.1, 0, -0.1);
             boolean hasClearance = player.level().noCollision(player, clearanceBox);
-
             if (!hasClearance) {
                 return false;
             }
         }
 
-        return isFalling || hasUpdraft;
+        boolean shouldGlide = isFalling || hasUpdraft;
+
+        if (shouldGlide) {
+            setGliding(player, true);
+        }
+
+        return shouldGlide;
     }
 }
