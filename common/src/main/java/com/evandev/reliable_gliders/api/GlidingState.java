@@ -11,8 +11,8 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 public class GlidingState {
-
     private static final Map<Player, Boolean> GLIDING_PLAYERS = new WeakHashMap<>();
+    private static final Map<Player, Boolean> KEY_BOUND_PLAYERS = new WeakHashMap<>();
 
     public static void setGliding(Player player, boolean gliding) {
         if (gliding) {
@@ -26,6 +26,18 @@ public class GlidingState {
         return GLIDING_PLAYERS.getOrDefault(player, false);
     }
 
+    public static void setKeyBound(Player player, boolean bound) {
+        if (bound) {
+            KEY_BOUND_PLAYERS.put(player, true);
+        } else {
+            KEY_BOUND_PLAYERS.remove(player);
+        }
+    }
+
+    public static boolean isKeyBound(Player player) {
+        return KEY_BOUND_PLAYERS.getOrDefault(player, false);
+    }
+
     public static boolean isGliding(Player player) {
         boolean holdingGlider = player.getMainHandItem().getItem() instanceof GliderItem ||
                 player.getOffhandItem().getItem() instanceof GliderItem ||
@@ -37,6 +49,10 @@ public class GlidingState {
                 setGliding(player, false);
             }
             return false;
+        }
+
+        if (isKeyBound(player)) {
+            return wasGliding(player);
         }
 
         if (wasGliding(player)) {
@@ -55,7 +71,6 @@ public class GlidingState {
         }
 
         boolean shouldGlide = isFalling || hasUpdraft;
-
         if (shouldGlide) {
             setGliding(player, true);
         }
