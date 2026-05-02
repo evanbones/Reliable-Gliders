@@ -7,6 +7,7 @@ import com.evandev.reliable_gliders.network.SetGliderStatePayload;
 import com.evandev.reliable_gliders.network.SyncGliderSettingsPayload;
 import com.evandev.reliable_gliders.platform.Services;
 import com.evandev.reliable_gliders.registry.ModItems;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -26,7 +27,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 public class ReliableGlidersClient {
-    private static boolean wasJumpKeyDown = false;
+    private static boolean wasDeployKeyDown = false;
     private static boolean wasOnGroundLastTick = true;
 
     public static void register(ModContainer container, IEventBus modEventBus) {
@@ -85,10 +86,21 @@ public class ReliableGlidersClient {
         while (ClientConstants.DEPLOY_KEY.consumeClick()) {
         }
 
-        boolean isJumpOrDeployDown = ClientConstants.DEPLOY_KEY.isDown() || mc.options.keyJump.isDown();
+        boolean isDeployKeyDown = ClientConstants.DEPLOY_KEY.isDown();
+
+        if (!isDeployKeyDown && !ClientConstants.DEPLOY_KEY.isUnbound()) {
+            String deployKeyString = ClientConstants.DEPLOY_KEY.saveString();
+            for (KeyMapping key : mc.options.keyMappings) {
+                if (key.saveString().equals(deployKeyString) && key.isDown()) {
+                    isDeployKeyDown = true;
+                    break;
+                }
+            }
+        }
+
         boolean isOnGroundNow = mc.player.onGround();
 
-        if (isJumpOrDeployDown && !wasJumpKeyDown) {
+        if (isDeployKeyDown && !wasDeployKeyDown) {
             if (!wasOnGroundLastTick && !isOnGroundNow) {
                 boolean newState = !GlidingState.wasGliding(mc.player);
                 GlidingState.setGliding(mc.player, newState);
@@ -96,7 +108,7 @@ public class ReliableGlidersClient {
             }
         }
 
-        wasJumpKeyDown = isJumpOrDeployDown;
+        wasDeployKeyDown = isDeployKeyDown;
         wasOnGroundLastTick = isOnGroundNow;
     }
 }
