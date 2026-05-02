@@ -18,6 +18,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.component.DyedItemColor;
 
 public class ReliableGlidersClient implements ClientModInitializer {
+
+    private static boolean wasJumpKeyDown = false;
+    private static boolean wasOnGroundLastTick = true;
+
     @Override
     public void onInitializeClient() {
         ModelLoadingPlugin.register(pluginContext -> {
@@ -53,8 +57,13 @@ public class ReliableGlidersClient implements ClientModInitializer {
                 }
             }
 
-            while (ClientConstants.DEPLOY_KEY.consumeClick() || client.options.keyJump.consumeClick()) {
-                if (!client.player.onGround()) {
+            while (ClientConstants.DEPLOY_KEY.consumeClick()) {}
+
+            boolean isJumpOrDeployDown = ClientConstants.DEPLOY_KEY.isDown() || client.options.keyJump.isDown();
+            boolean isOnGroundNow = client.player.onGround();
+
+            if (isJumpOrDeployDown && !wasJumpKeyDown) {
+                if (!wasOnGroundLastTick && !isOnGroundNow) {
                     boolean newState = !GlidingState.wasGliding(client.player);
                     GlidingState.setGliding(client.player, newState);
                     if (ClientPlayNetworking.canSend(SetGliderStatePayload.TYPE)) {
@@ -62,6 +71,9 @@ public class ReliableGlidersClient implements ClientModInitializer {
                     }
                 }
             }
+
+            wasJumpKeyDown = isJumpOrDeployDown;
+            wasOnGroundLastTick = isOnGroundNow;
         });
     }
 }

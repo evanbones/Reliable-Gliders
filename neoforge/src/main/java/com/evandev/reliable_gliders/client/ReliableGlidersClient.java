@@ -26,6 +26,9 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 public class ReliableGlidersClient {
+    private static boolean wasJumpKeyDown = false;
+    private static boolean wasOnGroundLastTick = true;
+
     public static void register(ModContainer container, IEventBus modEventBus) {
         if (Services.PLATFORM.isModLoaded("cloth_config")) {
             container.registerExtensionPoint(IConfigScreenFactory.class, (c, parent) -> ClothConfigIntegration.createScreen(parent));
@@ -79,12 +82,21 @@ public class ReliableGlidersClient {
             PacketDistributor.sendToServer(new SyncGliderSettingsPayload(currentBoundState));
         }
 
-        while (ClientConstants.DEPLOY_KEY.consumeClick() || mc.options.keyJump.consumeClick()) {
-            if (!mc.player.onGround()) {
+        while (ClientConstants.DEPLOY_KEY.consumeClick()) {
+        }
+
+        boolean isJumpOrDeployDown = ClientConstants.DEPLOY_KEY.isDown() || mc.options.keyJump.isDown();
+        boolean isOnGroundNow = mc.player.onGround();
+
+        if (isJumpOrDeployDown && !wasJumpKeyDown) {
+            if (!wasOnGroundLastTick && !isOnGroundNow) {
                 boolean newState = !GlidingState.wasGliding(mc.player);
                 GlidingState.setGliding(mc.player, newState);
                 PacketDistributor.sendToServer(new SetGliderStatePayload(newState));
             }
         }
+
+        wasJumpKeyDown = isJumpOrDeployDown;
+        wasOnGroundLastTick = isOnGroundNow;
     }
 }
