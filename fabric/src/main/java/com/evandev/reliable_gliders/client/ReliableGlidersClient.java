@@ -11,6 +11,7 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
@@ -19,7 +20,7 @@ import net.minecraft.world.item.component.DyedItemColor;
 
 public class ReliableGlidersClient implements ClientModInitializer {
 
-    private static boolean wasJumpKeyDown = false;
+    private static boolean wasDeployKeyDown = false;
     private static boolean wasOnGroundLastTick = true;
 
     @Override
@@ -59,10 +60,21 @@ public class ReliableGlidersClient implements ClientModInitializer {
 
             while (ClientConstants.DEPLOY_KEY.consumeClick()) {}
 
-            boolean isJumpOrDeployDown = ClientConstants.DEPLOY_KEY.isDown() || client.options.keyJump.isDown();
+            boolean isDeployKeyDown = ClientConstants.DEPLOY_KEY.isDown();
+
+            if (!isDeployKeyDown && !ClientConstants.DEPLOY_KEY.isUnbound()) {
+                String deployKeyString = ClientConstants.DEPLOY_KEY.saveString();
+                for (KeyMapping key : client.options.keyMappings) {
+                    if (key.saveString().equals(deployKeyString) && key.isDown()) {
+                        isDeployKeyDown = true;
+                        break;
+                    }
+                }
+            }
+
             boolean isOnGroundNow = client.player.onGround();
 
-            if (isJumpOrDeployDown && !wasJumpKeyDown) {
+            if (isDeployKeyDown && !wasDeployKeyDown) {
                 if (!wasOnGroundLastTick && !isOnGroundNow) {
                     boolean newState = !GlidingState.wasGliding(client.player);
                     GlidingState.setGliding(client.player, newState);
@@ -72,7 +84,7 @@ public class ReliableGlidersClient implements ClientModInitializer {
                 }
             }
 
-            wasJumpKeyDown = isJumpOrDeployDown;
+            wasDeployKeyDown = isDeployKeyDown;
             wasOnGroundLastTick = isOnGroundNow;
         });
     }

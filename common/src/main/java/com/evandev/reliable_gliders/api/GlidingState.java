@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 public class GlidingState {
+
     private static final Map<Player, Boolean> GLIDING_PLAYERS = new WeakHashMap<>();
     private static final Map<Player, Boolean> KEY_BOUND_PLAYERS = new WeakHashMap<>();
 
@@ -44,7 +45,7 @@ public class GlidingState {
                 (ModConfig.get().equipToChestplate && player.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof GliderItem) ||
                 Services.PLATFORM.isGliderEquippedInAccessorySlot(player);
 
-        if (!holdingGlider || player.onGround() || player.isFallFlying() || player.isInWater()) {
+        if (!holdingGlider || player.onGround() || player.isFallFlying() || player.isInWater() || player.onClimbable() || player.isPassenger()) {
             if (wasGliding(player)) {
                 setGliding(player, false);
             }
