@@ -1,8 +1,8 @@
 package com.evandev.reliable_gliders;
 
 import com.evandev.reliable_gliders.api.GlidingState;
+import com.evandev.reliable_gliders.network.SetGliderStatePayload;
 import com.evandev.reliable_gliders.network.SyncGliderSettingsPayload;
-import com.evandev.reliable_gliders.network.ToggleGliderPayload;
 import com.evandev.reliable_gliders.registry.ModItems;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
@@ -16,10 +16,10 @@ public class ReliableGliders implements ModInitializer {
         CommonClass.init();
         ModItems.init();
 
-        PayloadTypeRegistry.serverboundPlay().register(ToggleGliderPayload.TYPE, ToggleGliderPayload.STREAM_CODEC);
-        ServerPlayNetworking.registerGlobalReceiver(ToggleGliderPayload.TYPE, (payload, context) -> {
+        PayloadTypeRegistry.serverboundPlay().register(SetGliderStatePayload.TYPE, SetGliderStatePayload.STREAM_CODEC);
+        ServerPlayNetworking.registerGlobalReceiver(SetGliderStatePayload.TYPE, (payload, context) -> {
             context.player().level().getServer().execute(() -> {
-                GlidingState.setGliding(context.player(), !GlidingState.wasGliding(context.player()));
+                GlidingState.setGliding(context.player(), payload.isGliding());
             });
         });
 
