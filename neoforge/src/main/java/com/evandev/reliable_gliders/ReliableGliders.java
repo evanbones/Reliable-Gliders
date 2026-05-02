@@ -2,6 +2,7 @@ package com.evandev.reliable_gliders;
 
 import com.evandev.reliable_gliders.api.GlidingState;
 import com.evandev.reliable_gliders.client.ReliableGlidersClient;
+import com.evandev.reliable_gliders.network.SyncGliderSettingsPayload;
 import com.evandev.reliable_gliders.network.ToggleGliderPayload;
 import com.evandev.reliable_gliders.registry.ModItems;
 import net.minecraft.core.registries.Registries;
@@ -53,6 +54,16 @@ public class ReliableGliders {
                 (payload, context) -> {
                     context.enqueueWork(() -> {
                         GlidingState.setGliding(context.player(), !GlidingState.wasGliding(context.player()));
+                    });
+                }
+        );
+
+        registrar.playToServer(
+                SyncGliderSettingsPayload.TYPE,
+                SyncGliderSettingsPayload.STREAM_CODEC,
+                (payload, context) -> {
+                    context.enqueueWork(() -> {
+                        GlidingState.setKeyBound(context.player(), payload.isKeyBound());
                     });
                 }
         );
