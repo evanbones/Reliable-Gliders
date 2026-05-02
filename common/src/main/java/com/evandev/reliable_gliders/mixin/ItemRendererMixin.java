@@ -14,9 +14,16 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 public class ItemRendererMixin {
 
     @ModifyVariable(method = "render", at = @At("HEAD"), argsOnly = true)
-    private BakedModel reliableGliders$guiModel(BakedModel originalModel, @Local(argsOnly = true) ItemStack stack, @Local(argsOnly = true) ItemDisplayContext displayContext) {
-        if (stack.is(ModItems.GLIDER) && displayContext == ItemDisplayContext.GUI) {
-            return ((ItemRenderer) (Object) this).getItemModelShaper().getItemModel(stack.getItem());
+    private BakedModel reliableGliders$correctGliderModel(BakedModel originalModel, @Local(argsOnly = true) ItemStack stack, @Local(argsOnly = true) ItemDisplayContext displayContext) {
+        if (stack.is(ModItems.GLIDER)) {
+            boolean isHand = displayContext == ItemDisplayContext.THIRD_PERSON_RIGHT_HAND ||
+                    displayContext == ItemDisplayContext.THIRD_PERSON_LEFT_HAND ||
+                    displayContext == ItemDisplayContext.FIRST_PERSON_RIGHT_HAND ||
+                    displayContext == ItemDisplayContext.FIRST_PERSON_LEFT_HAND;
+
+            if (!isHand) {
+                return ((ItemRenderer) (Object) this).getItemModelShaper().getItemModel(stack.getItem());
+            }
         }
         return originalModel;
     }

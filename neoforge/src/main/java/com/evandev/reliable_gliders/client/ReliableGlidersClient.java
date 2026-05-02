@@ -3,8 +3,11 @@ package com.evandev.reliable_gliders.client;
 import com.evandev.reliable_gliders.Constants;
 import com.evandev.reliable_gliders.api.GlidingState;
 import com.evandev.reliable_gliders.client.integration.ClothConfigIntegration;
+import com.evandev.reliable_gliders.network.SetGliderStatePayload;
+import com.evandev.reliable_gliders.network.SyncGliderSettingsPayload;
 import com.evandev.reliable_gliders.platform.Services;
 import com.evandev.reliable_gliders.registry.ModItems;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.component.DataComponents;
@@ -14,9 +17,13 @@ import net.minecraft.world.item.component.DyedItemColor;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class ReliableGlidersClient {
     public static void register(ModContainer container, IEventBus modEventBus) {
@@ -27,6 +34,9 @@ public class ReliableGlidersClient {
         modEventBus.addListener(ReliableGlidersClient::onModelRegister);
         modEventBus.addListener(ReliableGlidersClient::onClientSetup);
         modEventBus.addListener(ReliableGlidersClient::onItemColors);
+        modEventBus.addListener(ReliableGlidersClient::registerKeyMappings);
+
+        NeoForge.EVENT_BUS.addListener(ReliableGlidersClient::onClientTick);
     }
 
     public static void onModelRegister(ModelEvent.RegisterAdditional event) {
@@ -53,5 +63,28 @@ public class ReliableGlidersClient {
             }
             return -1;
         }, ModItems.GLIDER);
+    }
+
+    public static void registerKeyMappings(RegisterKeyMappingsEvent event) {
+        event.register(ClientConstants.DEPLOY_KEY);
+    }
+
+    public static void onClientTick(ClientTickEvent.Post event) {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.player == null) return;
+
+        if (mc.player.tickCount % 20 == 0) {
+            boolean currentBoundState = !ClientConstants.DEPLOY_KEY.isUnbound();
+            GlidingState.setKeyBound(mc.player, currentBoundState);
+            PacketDistributor.sendToServer(new SyncGliderSettingsPayload(currentBoundState));
+        }
+
+        while (ClientConstants.DEPLOY_KEY.consumeClick() || mc.options.keyJump.consumeClick()) {
+            if (!mc.player.onGround()) {
+                boolean newState = !GlidingState.wasGliding(mc.player);
+                GlidingState.setGliding(mc.player, newState);
+                PacketDistributor.sendToServer(new SetGliderStatePayload(newState));
+            }
+        }
     }
 }

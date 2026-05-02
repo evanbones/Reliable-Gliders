@@ -12,7 +12,7 @@
   "tag.block.reliable_gliders.updraft_blocks": "Updraft Blocks",
 
   "key.reliable_gliders.deploy": "Deploy Glider",
-  "key.category.reliable_gliders.main": "Reliable Gliders",
+  "key.categories.reliable_gliders": "Reliable Gliders",
 
   "item.reliable_gliders.glider": "Glider"
 }

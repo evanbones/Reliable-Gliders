@@ -8,12 +8,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 
 public class ModItems {
-
     public static Item GLIDER;
 
     public static void init() {
         GLIDER = Services.PLATFORM.createGliderItem(new Item.Properties().durability(400));
-
         Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "glider"), GLIDER);
     }
 }
