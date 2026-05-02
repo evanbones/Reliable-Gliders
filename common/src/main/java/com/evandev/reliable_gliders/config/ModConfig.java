@@ -22,6 +22,9 @@ public class ModConfig {
     @SerializedName("updraft_height")
     public int updraftHeight = 15;
 
+    @SerializedName("equip_to_chestplate")
+    public boolean equipToChestplate = false;
+
     public static ModConfig get() {
         if (INSTANCE == null) {
             load();

@@ -3,8 +3,12 @@ package com.evandev.reliable_gliders.platform;
 import com.evandev.reliable_gliders.content.FabricGliderItem;
 import com.evandev.reliable_gliders.item.GliderItem;
 import com.evandev.reliable_gliders.platform.services.IPlatformHelper;
+import com.evandev.reliable_gliders.registry.ModItems;
+import eu.pb4.trinkets.api.TrinketAttachment;
+import eu.pb4.trinkets.api.TrinketsApi;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 
 import java.nio.file.Path;
@@ -38,5 +42,16 @@ public class FabricPlatformHelper implements IPlatformHelper {
     @Override
     public GliderItem createGliderItem(Item.Properties properties) {
         return new FabricGliderItem(properties);
+    }
+
+    @Override
+    public boolean isGliderEquippedInAccessorySlot(Player player) {
+        if (isModLoaded("trinkets")) {
+            TrinketAttachment attachment = TrinketsApi.getAttachment(player);
+            if (attachment != null) {
+                return attachment.isEquipped(ModItems.GLIDER);
+            }
+        }
+        return false;
     }
 }

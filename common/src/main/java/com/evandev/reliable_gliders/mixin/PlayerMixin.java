@@ -3,6 +3,7 @@ package com.evandev.reliable_gliders.mixin;
 import com.evandev.reliable_gliders.api.GlidingState;
 import com.evandev.reliable_gliders.config.ModConfig;
 import com.evandev.reliable_gliders.item.GliderItem;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -18,11 +19,16 @@ public class PlayerMixin {
     @Inject(method = "tick", at = @At("TAIL"))
     private void reliableGliders$tickGliderPhysics(CallbackInfo ci) {
         Player player = (Player) (Object) this;
-
         boolean isGliding = GlidingState.isGliding(player);
         boolean wasGliding = GlidingState.wasGliding(player);
 
         if (isGliding) {
+            player.fallDistance = 0.0F;
+            if (!player.level().isClientSide() && player instanceof ServerPlayer serverPlayer) {
+                serverPlayer.connection.aboveGroundTickCount = 0;
+                serverPlayer.connection.aboveGroundVehicleTickCount = 0;
+            }
+
             if (!wasGliding) {
                 player.level().playSound(player, player.blockPosition(),
                         SoundEvents.ARMOR_EQUIP_LEATHER.value(), SoundSource.PLAYERS, 1.0f, 0.85f);

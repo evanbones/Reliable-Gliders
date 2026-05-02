@@ -37,6 +37,13 @@ public class ClothConfigIntegration {
                 .setSaveConsumer(newValue -> config.updraftHeight = newValue)
                 .build());
 
+        general.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.reliable_gliders.equip_to_chestplate"), config.equipToChestplate)
+                .setDefaultValue(false)
+                .setTooltip(Component.translatable("config.reliable_gliders.equip_to_chestplate.tooltip"))
+                .requireRestart()
+                .setSaveConsumer(newValue -> config.equipToChestplate = newValue)
+                .build());
+
         return builder.build();
     }
 }

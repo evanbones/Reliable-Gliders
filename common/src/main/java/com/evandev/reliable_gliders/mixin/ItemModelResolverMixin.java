@@ -32,18 +32,22 @@ public class ItemModelResolverMixin {
             int seed,
             CallbackInfo ci
     ) {
-        if (item.is(ModItems.GLIDER)) {
-            if (owner instanceof Player player && GlidingState.isGliding(player)) {
-                if (displayContext != ItemDisplayContext.GUI && displayContext != ItemDisplayContext.FIXED) {
+        if (owner instanceof Player player && GlidingState.isGliding(player)) {
+            boolean isHand = displayContext == ItemDisplayContext.THIRD_PERSON_RIGHT_HAND ||
+                    displayContext == ItemDisplayContext.THIRD_PERSON_LEFT_HAND ||
+                    displayContext == ItemDisplayContext.FIRST_PERSON_RIGHT_HAND ||
+                    displayContext == ItemDisplayContext.FIRST_PERSON_LEFT_HAND;
 
+            if (isHand) {
+                if (item.is(ModItems.GLIDER)) {
                     ci.cancel();
-
                     Identifier modelId = Identifier.fromNamespaceAndPath(Constants.MOD_ID, "glider_active");
                     ClientLevel clientLevel = level instanceof ClientLevel cl ? cl : null;
-
                     Minecraft.getInstance().getModelManager().getItemModel(modelId).update(
                             output, item, (ItemModelResolver) (Object) this, displayContext, clientLevel, owner, seed
                     );
+                } else {
+                    ci.cancel();
                 }
             }
         }

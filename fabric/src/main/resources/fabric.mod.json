@@ -19,6 +19,9 @@
     "main": [
       "com.evandev.reliable_gliders.ReliableGliders"
     ],
+    "client": [
+      "com.evandev.reliable_gliders.client.ReliableGlidersClient"
+    ],
     "modmenu": [
       "com.evandev.reliable_gliders.compat.ModMenuIntegration"
     ],

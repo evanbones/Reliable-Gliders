@@ -44,20 +44,13 @@ public class GliderItem extends Item {
 
         boolean isMainHand = slot == EquipmentSlot.MAINHAND;
         boolean isOffHand = slot == EquipmentSlot.OFFHAND;
+        boolean isChest = ModConfig.get().equipToChestplate && slot == EquipmentSlot.CHEST;
 
-        if (!isMainHand && !isOffHand) return;
-        if (isOffHand && player.getMainHandItem().getItem() instanceof GliderItem) return;
+        if (!isMainHand && !isOffHand && !isChest && slot != null) return;
 
         if (GlidingState.isGliding(player)) {
-            player.fallDistance = 0.0F;
-
-            if (player instanceof ServerPlayer serverPlayer) {
-                serverPlayer.connection.aboveGroundTickCount = 0;
-                serverPlayer.connection.aboveGroundVehicleTickCount = 0;
-
-                if (level.getGameTime() % 20 == 0) {
-                    stack.hurtAndBreak(1, player, slot);
-                }
+            if (player instanceof ServerPlayer serverPlayer && level.getGameTime() % 20 == 0) {
+                stack.hurtAndBreak(1, serverPlayer, slot != null ? slot : EquipmentSlot.MAINHAND);
             }
         }
     }
