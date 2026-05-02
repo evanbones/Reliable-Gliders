@@ -12,9 +12,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.jetbrains.annotations.NotNull;
 
 public class GliderItem extends Item {
@@ -31,7 +31,13 @@ public class GliderItem extends Item {
             BlockState state = level.getBlockState(checkPos);
 
             if (state.is(ModTags.Blocks.UPDRAFT_BLOCKS)) {
-                return true;
+                if (state.hasProperty(BlockStateProperties.LIT)) {
+                    if (state.getValue(BlockStateProperties.LIT)) {
+                        return true;
+                    }
+                } else {
+                    return true;
+                }
             } else if (!state.isAir() && state.canOcclude()) {
                 break;
             }
@@ -40,24 +46,23 @@ public class GliderItem extends Item {
     }
 
     @Override
-    public boolean isValidRepairItem(@NotNull ItemStack pToRepair, @NotNull ItemStack pRepair) {
-        return pRepair.is(ModTags.Items.GLIDER_REPAIR_ITEMS) || super.isValidRepairItem(pToRepair, pRepair);
-    }
-
-    @Override
     public void inventoryTick(@NotNull ItemStack stack, @NotNull Level level, @NotNull Entity entity, int slotId, boolean isSelected) {
         if (!(entity instanceof Player player)) return;
-
         boolean isMainHand = player.getMainHandItem() == stack;
         boolean isOffHand = player.getOffhandItem() == stack;
 
-        if (!isMainHand && !isOffHand) return;
-        if (isOffHand && player.getMainHandItem().getItem() instanceof GliderItem) return;
+        if (!isMainHand && !isOffHand && !isChest && slot != null) return;
 
         boolean isGliding = GlidingState.isGliding(player);
         boolean wasGliding = GlidingState.wasGliding(player);
 
         if (isGliding) {
+            player.fallDistance = 0.0F;
+            if (!player.level().isClientSide() && player instanceof ServerPlayer serverPlayer) {
+                serverPlayer.connection.aboveGroundTickCount = 0;
+                serverPlayer.connection.aboveGroundVehicleTickCount = 0;
+            }
+
             if (!wasGliding) {
                 level.playSound(player, player.blockPosition(),
                         SoundEvents.ARMOR_EQUIP_LEATHER.value(), SoundSource.PLAYERS, 1.0f, 0.85f);

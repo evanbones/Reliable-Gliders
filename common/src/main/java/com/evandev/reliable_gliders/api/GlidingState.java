@@ -1,6 +1,9 @@
 package com.evandev.reliable_gliders.api;
 
+import com.evandev.reliable_gliders.config.ModConfig;
 import com.evandev.reliable_gliders.item.GliderItem;
+import com.evandev.reliable_gliders.platform.Services;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 
@@ -25,7 +28,9 @@ public class GlidingState {
 
     public static boolean isGliding(Player player) {
         boolean holdingGlider = player.getMainHandItem().getItem() instanceof GliderItem ||
-                player.getOffhandItem().getItem() instanceof GliderItem;
+                player.getOffhandItem().getItem() instanceof GliderItem ||
+                (ModConfig.get().equipToChestplate && player.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof GliderItem) ||
+                Services.PLATFORM.isGliderEquippedInAccessorySlot(player);
 
         if (!holdingGlider || player.onGround() || player.isFallFlying() || player.isInWater()) {
             if (wasGliding(player)) {

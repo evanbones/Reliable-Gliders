@@ -45,6 +45,8 @@ publishMods {
         minecraftVersions.add("${minecraft_version}")
 
         optional("cloth-config")
+        optional("trinkets")
+        optional("curios")
     }
 
     modrinth {
@@ -53,5 +55,7 @@ publishMods {
         minecraftVersions.add("${minecraft_version}")
 
         optional("cloth-config")
+        optional("trinkets")
+        optional("curios")
     }
 }
