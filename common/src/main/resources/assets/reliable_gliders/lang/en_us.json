@@ -9,6 +9,7 @@
   "config.reliable_gliders.equip_to_chestplate.tooltip": "Allows the glider to be worn in the chest armor slot.\nRequires a game restart to apply.",
 
   "tag.item.reliable_gliders.glider_repair_items": "Glider Repair Items",
+  "tag.block.reliable_gliders.updraft_blocks": "Updraft Blocks",
 
   "key.reliable_gliders.deploy": "Deploy Glider",
   "key.category.reliable_gliders.main": "Reliable Gliders",

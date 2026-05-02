@@ -13,6 +13,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,7 +31,13 @@ public class GliderItem extends Item {
             BlockState state = level.getBlockState(checkPos);
 
             if (state.is(ModTags.Blocks.UPDRAFT_BLOCKS)) {
-                return true;
+                if (state.hasProperty(BlockStateProperties.LIT)) {
+                    if (state.getValue(BlockStateProperties.LIT)) {
+                        return true;
+                    }
+                } else {
+                    return true;
+                }
             } else if (!state.isAir() && state.canOcclude()) {
                 break;
             }
