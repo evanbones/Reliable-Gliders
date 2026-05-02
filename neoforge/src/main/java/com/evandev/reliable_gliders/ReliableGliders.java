@@ -2,8 +2,8 @@ package com.evandev.reliable_gliders;
 
 import com.evandev.reliable_gliders.api.GlidingState;
 import com.evandev.reliable_gliders.client.ReliableGlidersClient;
+import com.evandev.reliable_gliders.network.SetGliderStatePayload;
 import com.evandev.reliable_gliders.network.SyncGliderSettingsPayload;
-import com.evandev.reliable_gliders.network.ToggleGliderPayload;
 import com.evandev.reliable_gliders.registry.ModItems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -49,11 +49,11 @@ public class ReliableGliders {
     private void registerPayloads(final RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar(Constants.MOD_ID);
         registrar.playToServer(
-                ToggleGliderPayload.TYPE,
-                ToggleGliderPayload.STREAM_CODEC,
+                SetGliderStatePayload.TYPE,
+                SetGliderStatePayload.STREAM_CODEC,
                 (payload, context) -> {
                     context.enqueueWork(() -> {
-                        GlidingState.setGliding(context.player(), !GlidingState.wasGliding(context.player()));
+                        GlidingState.setGliding(context.player(), payload.isGliding());
                     });
                 }
         );
