@@ -26,7 +26,7 @@ public class ModItems {
 
         Item.Properties props = new Item.Properties()
                 .setId(gliderKey)
-                .durability(400)
+                .durability(864)
                 .repairable(ModTags.Items.GLIDER_REPAIR_ITEMS);
 
         if (ModConfig.get().equipToChestplate) {

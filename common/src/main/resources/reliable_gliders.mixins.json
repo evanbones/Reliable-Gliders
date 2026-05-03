@@ -11,6 +11,7 @@
     "AvatarRendererMixin",
     "HumanoidModelMixin",
     "HumanoidRenderStateMixin",
+    "ItemInHandRendererMixin",
     "ItemModelResolverMixin",
     "LocalPlayerMixin"
   ],

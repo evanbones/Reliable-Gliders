@@ -19,18 +19,13 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+
 @Mixin(ItemModelResolver.class)
 public class ItemModelResolverMixin {
-
     @Inject(method = "appendItemLayers", at = @At("HEAD"), cancellable = true)
     private void reliableGliders$overrideGliderModel(
-            ItemStackRenderState output,
-            ItemStack item,
-            ItemDisplayContext displayContext,
-            @Nullable Level level,
-            @Nullable ItemOwner owner,
-            int seed,
-            CallbackInfo ci
+            ItemStackRenderState output, ItemStack item, ItemDisplayContext displayContext,
+            @Nullable Level level, @Nullable ItemOwner owner, int seed, CallbackInfo ci
     ) {
         if (owner instanceof Player player && GlidingState.isGliding(player)) {
             boolean isHand = displayContext == ItemDisplayContext.THIRD_PERSON_RIGHT_HAND ||
@@ -39,16 +34,13 @@ public class ItemModelResolverMixin {
                     displayContext == ItemDisplayContext.FIRST_PERSON_LEFT_HAND;
 
             if (isHand) {
-                if (item.is(ModItems.GLIDER)) {
-                    ci.cancel();
-                    Identifier modelId = Identifier.fromNamespaceAndPath(Constants.MOD_ID, "glider_active");
-                    ClientLevel clientLevel = level instanceof ClientLevel cl ? cl : null;
-                    Minecraft.getInstance().getModelManager().getItemModel(modelId).update(
-                            output, item, (ItemModelResolver) (Object) this, displayContext, clientLevel, owner, seed
-                    );
-                } else {
-                    ci.cancel();
-                }
+                ci.cancel();
+
+                Identifier modelId = Identifier.fromNamespaceAndPath(Constants.MOD_ID, "glider_active");
+                ClientLevel clientLevel = level instanceof ClientLevel cl ? cl : null;
+                Minecraft.getInstance().getModelManager().getItemModel(modelId).update(
+                        output, new ItemStack(ModItems.GLIDER), (ItemModelResolver) (Object) this, displayContext, clientLevel, owner, seed
+                );
             }
         }
     }

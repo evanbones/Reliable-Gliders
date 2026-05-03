@@ -4,6 +4,7 @@ import com.evandev.reliable_gliders.content.NeoForgeGliderItem;
 import com.evandev.reliable_gliders.item.GliderItem;
 import com.evandev.reliable_gliders.platform.services.IPlatformHelper;
 import com.evandev.reliable_gliders.registry.ModItems;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.neoforged.api.distmarker.Dist;
@@ -54,5 +55,17 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
                     .orElse(false);
         }
         return false;
+    }
+
+    @Override
+    public void damageGliderInAccessorySlot(Player player) {
+        if (isModLoaded("curios") && player instanceof ServerPlayer serverPlayer) {
+            CuriosApi.getCuriosInventory(player).ifPresent(inv -> {
+                inv.findCurios(ModItems.GLIDER).forEach(slotResult -> {
+                    slotResult.stack().hurtAndBreak(1, serverPlayer.level(), serverPlayer, item -> {
+                    });
+                });
+            });
+        }
     }
 }

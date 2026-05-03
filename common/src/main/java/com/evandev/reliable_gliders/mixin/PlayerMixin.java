@@ -3,10 +3,13 @@ package com.evandev.reliable_gliders.mixin;
 import com.evandev.reliable_gliders.api.GlidingState;
 import com.evandev.reliable_gliders.config.ModConfig;
 import com.evandev.reliable_gliders.item.GliderItem;
+import com.evandev.reliable_gliders.platform.Services;
+import com.evandev.reliable_gliders.registry.ModItems;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -24,9 +27,29 @@ public class PlayerMixin {
 
         if (isGliding) {
             player.fallDistance = 0.0F;
+            player.setSprinting(false);
+
             if (!player.level().isClientSide() && player instanceof ServerPlayer serverPlayer) {
                 serverPlayer.connection.aboveGroundTickCount = 0;
                 serverPlayer.connection.aboveGroundVehicleTickCount = 0;
+
+                if (serverPlayer.level().getGameTime() % 20 == 0) {
+                    boolean damaged = false;
+                    if (serverPlayer.getMainHandItem().is(ModItems.GLIDER)) {
+                        serverPlayer.getMainHandItem().hurtAndBreak(1, serverPlayer, EquipmentSlot.MAINHAND);
+                        damaged = true;
+                    } else if (serverPlayer.getOffhandItem().is(ModItems.GLIDER)) {
+                        serverPlayer.getOffhandItem().hurtAndBreak(1, serverPlayer, EquipmentSlot.OFFHAND);
+                        damaged = true;
+                    } else if (ModConfig.get().equipToChestplate && serverPlayer.getItemBySlot(EquipmentSlot.CHEST).is(ModItems.GLIDER)) {
+                        serverPlayer.getItemBySlot(EquipmentSlot.CHEST).hurtAndBreak(1, serverPlayer, EquipmentSlot.CHEST);
+                        damaged = true;
+                    }
+
+                    if (!damaged) {
+                        Services.PLATFORM.damageGliderInAccessorySlot(serverPlayer);
+                    }
+                }
             }
 
             if (!wasGliding) {
