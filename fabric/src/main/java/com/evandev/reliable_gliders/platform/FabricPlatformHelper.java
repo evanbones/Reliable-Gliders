@@ -7,6 +7,8 @@ import com.evandev.reliable_gliders.registry.ModItems;
 import dev.emi.trinkets.api.TrinketsApi;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 
@@ -51,5 +53,18 @@ public class FabricPlatformHelper implements IPlatformHelper {
                     .orElse(false);
         }
         return false;
+    }
+
+    @Override
+    public void damageGliderInAccessorySlot(Player player) {
+        if (isModLoaded("trinkets")) {
+            TrinketsApi.getTrinketComponent(player).ifPresent(comp -> {
+                comp.getEquipped(ModItems.GLIDER).forEach(tuple -> {
+                    if (player instanceof ServerPlayer serverPlayer) {
+                        tuple.getB().hurtAndBreak(1, serverPlayer, EquipmentSlot.MAINHAND);
+                    }
+                });
+            });
+        }
     }
 }

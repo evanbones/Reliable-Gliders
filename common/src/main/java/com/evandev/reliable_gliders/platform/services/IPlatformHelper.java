@@ -59,4 +59,6 @@ public interface IPlatformHelper {
      * Checks if the glider is equipped in a Trinket (Fabric) or Curio (NeoForge) slot.
      */
     boolean isGliderEquippedInAccessorySlot(Player player);
+
+    void damageGliderInAccessorySlot(Player player);
 }

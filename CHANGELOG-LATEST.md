@@ -1,4 +1,10 @@
+### Changed
+
+- Decreased volume of gliding sound.
+- You can no longer sprint while gliding.
+- Increased Glider durability.
+
 ### Fixed
 
-- Improved keybind handling.
-- Fixed Glider activating while climbing or in a boat.
+- Fixed Gliders not taking damage while in a Curios slot.
+- Fixed Gliders not displaying in first person while in a Curios slot.

@@ -44,7 +44,7 @@ public class GliderSoundInstance extends AbstractTickableSoundInstance {
 
         float baseVolume = 0.0F;
         if (speed >= 0.01F) {
-            baseVolume = Mth.clamp(speed * 2.0F, 0.1F, 0.4F);
+            baseVolume = Mth.clamp(speed * 2.0F, 0.1F, 0.3F);
 
             this.pitch = 1.0F;
         }

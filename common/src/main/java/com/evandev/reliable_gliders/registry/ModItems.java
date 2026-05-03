@@ -11,7 +11,7 @@ public class ModItems {
     public static Item GLIDER;
 
     public static void init() {
-        GLIDER = Services.PLATFORM.createGliderItem(new Item.Properties().durability(400));
+        GLIDER = Services.PLATFORM.createGliderItem(new Item.Properties().durability(864));
         Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "glider"), GLIDER);
     }
 }

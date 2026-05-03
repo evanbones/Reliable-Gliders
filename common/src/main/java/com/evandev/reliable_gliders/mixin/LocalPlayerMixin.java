@@ -19,12 +19,16 @@ public class LocalPlayerMixin {
     @Inject(method = "tick", at = @At("TAIL"))
     private void reliableGliders$tickGliderSound(CallbackInfo ci) {
         LocalPlayer player = (LocalPlayer) (Object) this;
+        boolean isCurrentlyGliding = GlidingState.isGliding(player);
 
-        if (GlidingState.isGliding(player) && !this.reliableGliders$playGliderSound) {
-            this.reliableGliders$playGliderSound = true;
+        if (isCurrentlyGliding == this.reliableGliders$playGliderSound) {
+            return;
+        }
+
+        this.reliableGliders$playGliderSound = isCurrentlyGliding;
+
+        if (isCurrentlyGliding) {
             Minecraft.getInstance().getSoundManager().play(new GliderSoundInstance(player));
-        } else if (!GlidingState.isGliding(player) && this.reliableGliders$playGliderSound) {
-            this.reliableGliders$playGliderSound = false;
         }
     }
 }

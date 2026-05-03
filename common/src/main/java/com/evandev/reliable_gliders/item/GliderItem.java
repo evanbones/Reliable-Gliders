@@ -1,6 +1,5 @@
 package com.evandev.reliable_gliders.item;
 
-import com.evandev.reliable_gliders.api.GlidingState;
 import com.evandev.reliable_gliders.config.ModConfig;
 import com.evandev.reliable_gliders.registry.ModTags;
 import net.minecraft.core.BlockPos;
@@ -9,7 +8,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Equipable;
@@ -64,23 +62,5 @@ public class GliderItem extends Item implements Equipable {
             return this.swapWithEquipmentSlot(this, level, player, hand);
         }
         return InteractionResultHolder.pass(player.getItemInHand(hand));
-    }
-
-    @Override
-    public void inventoryTick(@NotNull ItemStack stack, @NotNull Level level, @NotNull Entity entity, int slotId, boolean isSelected) {
-        if (!(entity instanceof Player player)) return;
-
-        boolean isMainHand = player.getMainHandItem() == stack;
-        boolean isOffHand = player.getOffhandItem() == stack;
-        boolean isChest = ModConfig.get().equipToChestplate && player.getItemBySlot(EquipmentSlot.CHEST) == stack;
-
-        if (!isMainHand && !isOffHand && !isChest) return;
-
-        if (GlidingState.isGliding(player)) {
-            if (!level.isClientSide() && level.getGameTime() % 20 == 0) {
-                EquipmentSlot slotToDamage = isMainHand ? EquipmentSlot.MAINHAND : (isOffHand ? EquipmentSlot.OFFHAND : EquipmentSlot.CHEST);
-                stack.hurtAndBreak(1, player, slotToDamage);
-            }
-        }
     }
 }
