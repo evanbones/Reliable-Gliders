@@ -4,6 +4,7 @@ import com.evandev.reliable_gliders.client.integration.ClothConfigIntegration;
 import com.evandev.reliable_gliders.platform.Services;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
+import com.terraformersmc.modmenu.util.NullScreenFactory;
 
 public class ModMenuIntegration implements ModMenuApi {
     @Override
@@ -11,6 +12,7 @@ public class ModMenuIntegration implements ModMenuApi {
         if (Services.PLATFORM.isModLoaded("cloth-config")) {
             return ClothConfigIntegration::createScreen;
         }
-        return null;
+
+        return parent -> null;
     }
 }

@@ -5,7 +5,8 @@
   "compatibilityLevel": "JAVA_18",
   "mixins": [
     "LivingEntityMixin",
-    "PlayerMixin"
+    "PlayerMixin",
+    "ServerPlayerGameModeMixin"
   ],
   "client": [
     "AvatarRendererMixin",
@@ -13,7 +14,8 @@
     "HumanoidRenderStateMixin",
     "ItemInHandRendererMixin",
     "ItemModelResolverMixin",
-    "LocalPlayerMixin"
+    "LocalPlayerMixin",
+    "MinecraftMixin"
   ],
   "server": [],
   "injectors": {

@@ -26,6 +26,10 @@ public class PlayerMixin {
         boolean wasGliding = GlidingState.wasGliding(player);
 
         if (isGliding) {
+            if (player.isUsingItem()) {
+                player.stopUsingItem();
+            }
+
             player.fallDistance = 0.0F;
             player.setSprinting(false);
 
@@ -73,6 +77,13 @@ public class PlayerMixin {
             if (wasGliding) {
                 GlidingState.setGliding(player, false);
             }
+        }
+    }
+
+    @Inject(method = "attack", at = @At("HEAD"), cancellable = true)
+    private void reliableGliders$preventAttacking(net.minecraft.world.entity.Entity target, CallbackInfo ci) {
+        if (GlidingState.isGliding((Player) (Object) this)) {
+            ci.cancel();
         }
     }
 }
