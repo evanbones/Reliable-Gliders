@@ -1,6 +1,7 @@
 package com.evandev.reliable_gliders.mixin;
 
 import com.evandev.reliable_gliders.api.GlidingState;
+import com.evandev.reliable_gliders.registry.ModTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -14,7 +15,7 @@ public class LivingEntityMixin {
     @Inject(method = "swing(Lnet/minecraft/world/InteractionHand;Z)V", at = @At("HEAD"), cancellable = true)
     private void reliableGliders$cancelSwingAnim(InteractionHand hand, boolean sendToSwingingEntity, CallbackInfo ci) {
         if ((Object) this instanceof Player player) {
-            if (GlidingState.isGliding(player)) {
+            if (GlidingState.isGliding(player) && !player.getItemInHand(hand).is(ModTags.Items.GLIDER_USABLE_ITEMS)) {
                 ci.cancel();
             }
         }

@@ -1,5 +1,3 @@
-### Fixed
+### Added
 
-- Fixed error when Cloth Config isn't present.
-- Fixed visual bug with using Spears when gliding.
-- Players can no longer break blocks or swing swords while gliding.
+- Added a `glider_usable_items` tag for items that are able to be used while gliding.
