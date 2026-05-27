@@ -5,6 +5,7 @@ import com.evandev.reliable_gliders.config.ModConfig;
 import com.evandev.reliable_gliders.item.GliderItem;
 import com.evandev.reliable_gliders.platform.Services;
 import com.evandev.reliable_gliders.registry.ModItems;
+import com.evandev.reliable_gliders.registry.ModTags;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -27,7 +28,7 @@ public class PlayerMixin {
         boolean wasGliding = GlidingState.wasGliding(player);
 
         if (isGliding) {
-            if (player.isUsingItem()) {
+            if (player.isUsingItem() && !player.getUseItem().is(ModTags.Items.GLIDER_USABLE_ITEMS)) {
                 player.stopUsingItem();
             }
 
@@ -83,7 +84,8 @@ public class PlayerMixin {
 
     @Inject(method = "attack", at = @At("HEAD"), cancellable = true)
     private void reliableGliders$preventAttacking(Entity entity, CallbackInfo ci) {
-        if (GlidingState.isGliding((Player) (Object) this)) {
+        Player player = (Player) (Object) this;
+        if (GlidingState.isGliding(player) && !player.getMainHandItem().is(ModTags.Items.GLIDER_USABLE_ITEMS)) {
             ci.cancel();
         }
     }

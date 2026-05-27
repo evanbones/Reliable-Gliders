@@ -14,5 +14,6 @@ public class ModTags {
 
     public static class Items {
         public static final TagKey<Item> GLIDER_REPAIR_ITEMS = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "glider_repair_items"));
+        public static final TagKey<Item> GLIDER_USABLE_ITEMS = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "glider_usable_items"));
     }
 }
