@@ -5,14 +5,12 @@ import com.evandev.reliable_gliders.item.GliderItem;
 import com.evandev.reliable_gliders.platform.services.IPlatformHelper;
 import com.evandev.reliable_gliders.registry.ModItems;
 import eu.pb4.trinkets.api.TrinketAttachment;
-import eu.pb4.trinkets.api.TrinketSlotAccess;
 import eu.pb4.trinkets.api.TrinketsApi;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 
 import java.nio.file.Path;
 
@@ -63,12 +61,9 @@ public class FabricPlatformHelper implements IPlatformHelper {
         if (isModLoaded("trinkets") && player instanceof ServerPlayer serverPlayer) {
             TrinketAttachment attachment = TrinketsApi.getAttachment(player);
             if (attachment != null) {
-                attachment.getEquipped(ModItems.GLIDER).forEach(match -> {
-                    ItemStack stack = match.getB();
-                    TrinketSlotAccess slot = match.getA();
-
-                    TrinketsApi.hurtAndBreakItemStack(stack, 1, serverPlayer, slot);
-                });
+                attachment.equipped(ModItems.GLIDER, false).forEach(slot ->
+                        TrinketsApi.hurtAndBreakItemStack(slot.get(), 1, serverPlayer, slot)
+                );
             }
         }
     }

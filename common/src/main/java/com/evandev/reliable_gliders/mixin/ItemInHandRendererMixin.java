@@ -29,7 +29,7 @@ public class ItemInHandRendererMixin {
     @Unique
     private boolean reliableGliders$modified = false;
 
-    @Inject(method = "renderHandsWithItems", at = @At("HEAD"))
+    @Inject(method = "submitHandsWithItems", at = @At("HEAD"))
     private void reliableGliders$setupGliderHands(float frameInterp, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, LocalPlayer player, int lightCoords, CallbackInfo ci) {
         if (GlidingState.isGliding(player)) {
             boolean holdingGlider = this.mainHandItem.is(ModItems.GLIDER) || this.offHandItem.is(ModItems.GLIDER);
@@ -45,7 +45,7 @@ public class ItemInHandRendererMixin {
         }
     }
 
-    @Inject(method = "renderHandsWithItems", at = @At("TAIL"))
+    @Inject(method = "submitHandsWithItems", at = @At("TAIL"))
     private void reliableGliders$restoreGliderHands(float frameInterp, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, LocalPlayer player, int lightCoords, CallbackInfo ci) {
         if (this.reliableGliders$modified) {
             this.mainHandItem = this.reliableGliders$storedMain;
