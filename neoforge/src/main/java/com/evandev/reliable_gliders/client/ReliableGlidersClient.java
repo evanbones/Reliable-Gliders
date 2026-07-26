@@ -2,7 +2,7 @@ package com.evandev.reliable_gliders.client;
 
 import com.evandev.reliable_gliders.Constants;
 import com.evandev.reliable_gliders.api.GlidingState;
-import com.evandev.reliable_gliders.client.integration.ClothConfigIntegration;
+import com.evandev.reliable_gliders.client.integration.YACLIntegration;
 import com.evandev.reliable_gliders.network.SetGliderStatePayload;
 import com.evandev.reliable_gliders.network.SyncGliderSettingsPayload;
 import com.evandev.reliable_gliders.platform.Services;
@@ -31,8 +31,8 @@ public class ReliableGlidersClient {
     private static boolean wasOnGroundLastTick = true;
 
     public static void register(ModContainer container, IEventBus modEventBus) {
-        if (Services.PLATFORM.isModLoaded("cloth_config")) {
-            container.registerExtensionPoint(IConfigScreenFactory.class, (c, parent) -> ClothConfigIntegration.createScreen(parent));
+        if (Services.PLATFORM.isModLoaded("yet_another_config_lib_v3")) {
+            container.registerExtensionPoint(IConfigScreenFactory.class, (c, parent) -> YACLIntegration.createScreen(parent));
         }
 
         modEventBus.addListener(ReliableGlidersClient::onModelRegister);

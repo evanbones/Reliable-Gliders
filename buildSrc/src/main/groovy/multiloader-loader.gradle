@@ -44,7 +44,9 @@ publishMods {
         projectId = "1528600"
         minecraftVersions.add("${minecraft_version}")
 
-        optional("cloth-config")
+        client = true
+        server = true
+        optional("yacl")
         optional("trinkets")
         optional("curios")
     }
@@ -54,7 +56,7 @@ publishMods {
         projectId = "pVIWsXir"
         minecraftVersions.add("${minecraft_version}")
 
-        optional("cloth-config")
+        optional("yacl")
         optional("trinkets")
         optional("curios")
     }

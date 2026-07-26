@@ -22,6 +22,9 @@ public class ModConfig {
     @SerializedName("updraft_height")
     public int updraftHeight = 15;
 
+    @SerializedName("horizontal_speed")
+    public double horizontalSpeed = 1.0;
+
     @SerializedName("equip_to_chestplate")
     public boolean equipToChestplate = false;
 

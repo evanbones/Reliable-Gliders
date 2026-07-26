@@ -66,15 +66,33 @@ public class PlayerMixin {
             GlidingState.setGliding(player, true);
 
             double currentY = player.getDeltaMovement().y;
+            double newY;
 
             if (GliderItem.hasUpdraft(player)) {
-                double newY = Math.max(currentY, ModConfig.get().updraftStrength);
+                newY = Math.max(currentY, ModConfig.get().updraftStrength);
                 newY = Mth.lerp(0.2, currentY, newY);
-
-                player.setDeltaMovement(player.getDeltaMovement().x, newY, player.getDeltaMovement().z);
             } else {
-                player.setDeltaMovement(player.getDeltaMovement().x, Math.max(currentY, -0.05), player.getDeltaMovement().z);
+                newY = Math.max(currentY, -0.05);
             }
+
+            double horizontalSpeed = ModConfig.get().horizontalSpeed;
+            double newX = player.getDeltaMovement().x;
+            double newZ = player.getDeltaMovement().z;
+
+            if (horizontalSpeed != 1.0) {
+                newX *= horizontalSpeed;
+                newZ *= horizontalSpeed;
+
+                double maxSpeed = 0.5 * Math.max(1.0, horizontalSpeed);
+                double currentHorizontalSpeed = Math.hypot(newX, newZ);
+                if (currentHorizontalSpeed > maxSpeed) {
+                    double scale = maxSpeed / currentHorizontalSpeed;
+                    newX *= scale;
+                    newZ *= scale;
+                }
+            }
+
+            player.setDeltaMovement(newX, newY, newZ);
         } else {
             if (wasGliding) {
                 GlidingState.setGliding(player, false);

@@ -1,3 +1,7 @@
 ### Added
 
-- Added a `glider_usable_items` tag for items that are able to be used while gliding.
+- Added a config option to control horizontal speed.
+
+### Changed
+
+- Switched from Cloth Config to YACL.
