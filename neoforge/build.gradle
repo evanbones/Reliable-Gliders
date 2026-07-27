@@ -48,7 +48,7 @@ dependencies {
     implementation "me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}"
 
     // Curios
-    implementation "maven.modrinth:curios:${curios_version}"
+    compileOnly "maven.modrinth:curios:${curios_version}"
 }
 
 def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', String)
