@@ -36,10 +36,15 @@ public class ItemModelResolverMixin {
             if (isHand) {
                 ci.cancel();
 
+                ItemStack gliderStack = GlidingState.getGliderStack(player);
+                if (gliderStack.isEmpty()) {
+                    gliderStack = new ItemStack(ModItems.GLIDER);
+                }
+
                 Identifier modelId = Identifier.fromNamespaceAndPath(Constants.MOD_ID, "glider_active");
                 ClientLevel clientLevel = level instanceof ClientLevel cl ? cl : null;
                 Minecraft.getInstance().getModelManager().getItemModel(modelId).update(
-                        output, new ItemStack(ModItems.GLIDER), (ItemModelResolver) (Object) this, displayContext, clientLevel, owner, seed
+                        output, gliderStack, (ItemModelResolver) (Object) this, displayContext, clientLevel, owner, seed
                 );
             }
         }

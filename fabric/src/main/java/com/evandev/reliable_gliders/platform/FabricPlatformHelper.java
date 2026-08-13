@@ -59,6 +59,19 @@ public class FabricPlatformHelper implements IPlatformHelper {
     }
 
     @Override
+    public ItemStack getGliderStackInAccessorySlot(Player player) {
+        if (isModLoaded("trinkets")) {
+            TrinketAttachment attachment = TrinketsApi.getAttachment(player);
+            if (attachment != null) {
+                for (var slot : attachment.equipped(ModItems.GLIDER, false)) {
+                    return slot.get();
+                }
+            }
+        }
+        return ItemStack.EMPTY;
+    }
+
+    @Override
     public void damageGliderInAccessorySlot(Player player) {
         if (isModLoaded("trinkets") && player instanceof ServerPlayer serverPlayer) {
             TrinketAttachment attachment = TrinketsApi.getAttachment(player);
