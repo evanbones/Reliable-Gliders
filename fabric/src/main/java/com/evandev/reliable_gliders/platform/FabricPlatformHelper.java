@@ -11,6 +11,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 import java.nio.file.Path;
 
@@ -54,6 +55,19 @@ public class FabricPlatformHelper implements IPlatformHelper {
             }
         }
         return false;
+    }
+
+    @Override
+    public ItemStack getGliderStackInAccessorySlot(Player player) {
+        if (isModLoaded("trinkets")) {
+            TrinketAttachment attachment = TrinketsApi.getAttachment(player);
+            if (attachment != null) {
+                for (var slot : attachment.equipped(ModItems.GLIDER, false)) {
+                    return slot.get();
+                }
+            }
+        }
+        return ItemStack.EMPTY;
     }
 
     @Override

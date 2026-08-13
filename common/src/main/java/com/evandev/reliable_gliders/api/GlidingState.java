@@ -5,8 +5,10 @@ import com.evandev.reliable_gliders.item.GliderItem;
 import com.evandev.reliable_gliders.platform.Services;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -37,6 +39,19 @@ public class GlidingState {
 
     public static boolean isKeyBound(Player player) {
         return KEY_BOUND_PLAYERS.getOrDefault(player, false);
+    }
+
+    public static ItemStack getGliderStack(Player player) {
+        if (player.getMainHandItem().getItem() instanceof GliderItem) {
+            return player.getMainHandItem();
+        }
+        if (player.getOffhandItem().getItem() instanceof GliderItem) {
+            return player.getOffhandItem();
+        }
+        if (ModConfig.get().equipToChestplate && player.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof GliderItem) {
+            return player.getItemBySlot(EquipmentSlot.CHEST);
+        }
+        return Services.PLATFORM.getGliderStackInAccessorySlot(player);
     }
 
     public static boolean isGliding(Player player) {

@@ -30,10 +30,15 @@ public class AvatarRendererMixin {
                 boolean holdingGlider = player.getMainHandItem().is(ModItems.GLIDER) || player.getOffhandItem().is(ModItems.GLIDER);
 
                 if (!holdingGlider) {
+                    ItemStack gliderStack = GlidingState.getGliderStack(player);
+                    if (gliderStack.isEmpty()) {
+                        gliderStack = new ItemStack(ModItems.GLIDER);
+                    }
+
                     Identifier modelId = Identifier.fromNamespaceAndPath(Constants.MOD_ID, "glider_active");
                     Minecraft.getInstance().getModelManager().getItemModel(modelId).update(
                             state.rightHandItemState,
-                            new ItemStack(ModItems.GLIDER),
+                            gliderStack,
                             Minecraft.getInstance().getItemModelResolver(),
                             ItemDisplayContext.THIRD_PERSON_RIGHT_HAND,
                             player.level() instanceof ClientLevel cl ? cl : null,

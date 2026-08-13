@@ -1,1 +1,4 @@
-- 26.2 port (@pajicadvance).
+## Fixed
+
+- Fixed dyed glider model.
+- Fixed random crash.

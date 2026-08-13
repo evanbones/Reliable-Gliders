@@ -38,7 +38,8 @@ public class ItemInHandRendererMixin {
                 this.reliableGliders$storedMain = this.mainHandItem;
                 this.reliableGliders$storedOff = this.offHandItem;
 
-                this.mainHandItem = new ItemStack(ModItems.GLIDER);
+                ItemStack gliderStack = GlidingState.getGliderStack(player);
+                this.mainHandItem = gliderStack.isEmpty() ? new ItemStack(ModItems.GLIDER) : gliderStack;
                 this.offHandItem = ItemStack.EMPTY;
                 this.reliableGliders$modified = true;
             }
