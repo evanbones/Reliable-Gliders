@@ -14,8 +14,8 @@ import java.util.WeakHashMap;
 
 public class GlidingState {
 
-    private static final Map<Player, Boolean> GLIDING_PLAYERS = new WeakHashMap<>();
-    private static final Map<Player, Boolean> KEY_BOUND_PLAYERS = new WeakHashMap<>();
+    private static final Map<Player, Boolean> GLIDING_PLAYERS = Collections.synchronizedMap(new WeakHashMap<>());
+    private static final Map<Player, Boolean> KEY_BOUND_PLAYERS = Collections.synchronizedMap(new WeakHashMap<>());
 
     public static void setGliding(Player player, boolean gliding) {
         if (gliding) {
