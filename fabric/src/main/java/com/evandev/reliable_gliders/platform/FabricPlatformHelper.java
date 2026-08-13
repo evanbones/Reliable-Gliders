@@ -63,8 +63,8 @@ public class FabricPlatformHelper implements IPlatformHelper {
         if (isModLoaded("trinkets")) {
             TrinketAttachment attachment = TrinketsApi.getAttachment(player);
             if (attachment != null) {
-                for (var slot : attachment.equipped(ModItems.GLIDER, false)) {
-                    return slot.get();
+                for (var slot : attachment.getEquipped(ModItems.GLIDER)) {
+                    return slot.getB();
                 }
             }
         }
