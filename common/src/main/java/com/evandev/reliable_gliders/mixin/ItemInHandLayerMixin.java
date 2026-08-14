@@ -21,7 +21,8 @@ public class ItemInHandLayerMixin {
             boolean holdingGlider = stack.is(ModItems.GLIDER) || player.getOffhandItem().is(ModItems.GLIDER);
 
             if (!holdingGlider) {
-                return new ItemStack(ModItems.GLIDER);
+                ItemStack gliderStack = GlidingState.getGliderStack(player);
+                return gliderStack.isEmpty() ? new ItemStack(ModItems.GLIDER) : gliderStack;
             }
         }
         return stack;

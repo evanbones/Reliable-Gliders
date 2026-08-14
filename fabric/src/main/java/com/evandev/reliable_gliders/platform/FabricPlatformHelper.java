@@ -11,6 +11,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 import java.nio.file.Path;
 
@@ -53,6 +54,18 @@ public class FabricPlatformHelper implements IPlatformHelper {
                     .orElse(false);
         }
         return false;
+    }
+
+    @Override
+    public ItemStack getGliderStackInAccessorySlot(Player player) {
+        if (isModLoaded("trinkets")) {
+            return TrinketsApi.getTrinketComponent(player)
+                    .map(component -> component.getEquipped(ModItems.GLIDER))
+                    .filter(list -> !list.isEmpty())
+                    .map(list -> list.getFirst().getB())
+                    .orElse(ItemStack.EMPTY);
+        }
+        return ItemStack.EMPTY;
     }
 
     @Override

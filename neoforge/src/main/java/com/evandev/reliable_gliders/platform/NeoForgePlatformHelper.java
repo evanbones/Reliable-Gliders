@@ -7,6 +7,7 @@ import com.evandev.reliable_gliders.registry.ModItems;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLLoader;
@@ -55,6 +56,18 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
                     .orElse(false);
         }
         return false;
+    }
+
+    @Override
+    public ItemStack getGliderStackInAccessorySlot(Player player) {
+        if (isModLoaded("curios")) {
+            return CuriosApi.getCuriosInventory(player)
+                    .map(inv -> inv.findCurios(ModItems.GLIDER))
+                    .filter(list -> !list.isEmpty())
+                    .map(list -> list.getFirst().stack())
+                    .orElse(ItemStack.EMPTY);
+        }
+        return ItemStack.EMPTY;
     }
 
     @Override
