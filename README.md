@@ -27,7 +27,7 @@ A mod that adds a simple, immersive, and balanced Glider to the game!
 
 ## Configuration
 
-An in-game configuration screen is available if you have **Cloth Config** installed. Otherwise, you can edit the
+An in-game configuration screen is available if you have **YetAnotherConfigLib (YACL)** installed. Otherwise, you can edit the
 `reliable_gliders.json` file in your config folder.
 
 ## Modpack Creators
@@ -37,7 +37,8 @@ Additionally, you can customize which items repair gliders by modifying the `rel
 
 ## Dependencies
 
-* **Cloth Config API** (Optional, but highly recommended for the in-game configuration screen).
+* **YetAnotherConfigLib** (Optional, but highly recommended for the in-game configuration screen).
+* **Trinkets** / **Curios** (Optional, lets the Glider be worn in a back slot).
 
 ## Credits
 

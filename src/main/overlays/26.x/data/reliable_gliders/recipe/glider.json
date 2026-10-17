@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": "minecraft:phantom_membrane",
+    "S": "minecraft:stick",
+    "L": "minecraft:leather"
+  },
+  "pattern": [
+    "MLM",
+    "LSL",
+    "S S"
+  ],
+  "result": {
+    "id": "reliable_gliders:glider",
+    "count": 1
+  }
+}

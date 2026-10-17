@@ -1,0 +1,24 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.evandev.reliable_gliders.mixin",
+  "compatibilityLevel": "JAVA_${java_version}",
+  "mixins": [
+    "LivingEntityMixin",
+    "PlayerMixin",
+    "ServerGamePacketListenerImplAccessor",
+    "ServerPlayerGameModeMixin"
+  ],
+  "client": [
+    "HumanoidModelMixin",
+    "ItemInHandLayerMixin",
+    "ItemInHandRendererMixin",
+    "ItemRendererMixin",
+    "LocalPlayerMixin",
+    "MinecraftMixin"
+  ],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
