@@ -39,6 +39,15 @@ public class GliderItem extends Item implements Equipable {
 
     public static boolean hasUpdraft(Player player) {
         Level level = player.level();
+        //? if >=26.1 {
+        /*String dimension = level.dimension().identifier().toString();
+        *///?} else {
+        String dimension = level.dimension().location().toString();
+        //?}
+        if (ModConfig.get().updraftDisabledDimensions.contains(dimension)) {
+            return false;
+        }
+
         int maxHeight = ModConfig.get().updraftHeight;
 
         for (int i = 1; i <= maxHeight; i++) {

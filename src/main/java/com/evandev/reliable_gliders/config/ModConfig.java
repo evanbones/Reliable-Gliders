@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ModConfig {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
@@ -22,11 +24,17 @@ public class ModConfig {
     @SerializedName("updraft_height")
     public int updraftHeight = 15;
 
+    @SerializedName("updraft_disabled_dimensions")
+    public List<String> updraftDisabledDimensions = new ArrayList<>(List.of("minecraft:the_nether"));
+
     @SerializedName("horizontal_speed")
     public double horizontalSpeed = 1.0;
 
     @SerializedName("equip_to_chestplate")
     public boolean equipToChestplate = false;
+
+    @SerializedName("disable_in_creative")
+    public boolean disableInCreative = false;
 
     public static ModConfig get() {
         if (INSTANCE == null) {
@@ -39,11 +47,17 @@ public class ModConfig {
         if (CONFIG_FILE.exists()) {
             try (FileReader reader = new FileReader(CONFIG_FILE)) {
                 INSTANCE = GSON.fromJson(reader, ModConfig.class);
+                if (INSTANCE == null) {
+                    INSTANCE = new ModConfig();
+                }
+                if (INSTANCE.updraftDisabledDimensions == null) {
+                    INSTANCE.updraftDisabledDimensions = new ArrayList<>();
+                }
             } catch (Exception e) {
                 Constants.LOG.error("Failed to load reliable_gliders.json", e);
                 INSTANCE = new ModConfig();
-                save();
             }
+            save();
         } else {
             INSTANCE = new ModConfig();
             save();

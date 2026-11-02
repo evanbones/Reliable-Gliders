@@ -1,13 +1,10 @@
 ### Added
 
-- Added support for Minecraft 1.20.1 (Fabric and Forge).
-- Added the horizontal speed config option and YACL config screen to 26.x.
-- Added Trinkets Updated support to NeoForge on 26.x.
-
-### Changed
-
-- All versions are now built from a single codebase.
+- Added the `updraft_disabled_dimensions` config option to disable updrafts in specific dimensions.
+    - Updrafts are disabled in the Nether by default.
+- Added the `disable_in_creative` config option to stop the glider deploying in Creative mode.
 
 ### Fixed
 
-- Fixed Gliders not being repairable with Phantom Membranes in an anvil on 1.21.1.
+- Fixed Gliders deploying in Spectator mode and while flying in Creative mode.
+- Fixed being unable to steer when the horizontal speed config option is above 1.0.

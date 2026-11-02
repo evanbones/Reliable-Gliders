@@ -19,6 +19,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Player.class)
 public class PlayerMixin {
@@ -75,28 +76,19 @@ public class PlayerMixin {
                 newY = Math.max(currentY, -0.05);
             }
 
-            double horizontalSpeed = ModConfig.get().horizontalSpeed;
-            double newX = player.getDeltaMovement().x;
-            double newZ = player.getDeltaMovement().z;
-
-            if (horizontalSpeed != 1.0) {
-                newX *= horizontalSpeed;
-                newZ *= horizontalSpeed;
-
-                double maxSpeed = 0.5 * Math.max(1.0, horizontalSpeed);
-                double currentHorizontalSpeed = Math.hypot(newX, newZ);
-                if (currentHorizontalSpeed > maxSpeed) {
-                    double scale = maxSpeed / currentHorizontalSpeed;
-                    newX *= scale;
-                    newZ *= scale;
-                }
-            }
-
-            player.setDeltaMovement(newX, newY, newZ);
+            player.setDeltaMovement(player.getDeltaMovement().x, newY, player.getDeltaMovement().z);
         } else {
             if (wasGliding) {
                 GlidingState.setGliding(player, false);
             }
+        }
+    }
+
+    @Inject(method = "getFlyingSpeed", at = @At("RETURN"), cancellable = true)
+    private void reliableGliders$scaleGlidingSpeed(CallbackInfoReturnable<Float> cir) {
+        double horizontalSpeed = ModConfig.get().horizontalSpeed;
+        if (horizontalSpeed != 1.0 && GlidingState.wasGliding((Player) (Object) this)) {
+            cir.setReturnValue((float) (cir.getReturnValue() * horizontalSpeed));
         }
     }
 

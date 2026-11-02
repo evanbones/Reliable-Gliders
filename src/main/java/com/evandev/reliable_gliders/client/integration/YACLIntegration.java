@@ -2,15 +2,18 @@ package com.evandev.reliable_gliders.client.integration;
 
 import com.evandev.reliable_gliders.config.ModConfig;
 import dev.isxander.yacl3.api.ConfigCategory;
+import dev.isxander.yacl3.api.ListOption;
 import dev.isxander.yacl3.api.Option;
 import dev.isxander.yacl3.api.OptionDescription;
 import dev.isxander.yacl3.api.YetAnotherConfigLib;
 import dev.isxander.yacl3.api.controller.DoubleSliderControllerBuilder;
 import dev.isxander.yacl3.api.controller.IntegerSliderControllerBuilder;
+import dev.isxander.yacl3.api.controller.StringControllerBuilder;
 import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -32,7 +35,17 @@ public class YACLIntegration {
                 .option(createDoubleSliderOption("horizontal_speed", 1.0, 0.0, 10.0, 0.05,
                         () -> config.horizontalSpeed, val -> config.horizontalSpeed = val))
                 .option(createBoolOption("equip_to_chestplate", false,
-                        () -> config.equipToChestplate, val -> config.equipToChestplate = val));
+                        () -> config.equipToChestplate, val -> config.equipToChestplate = val))
+                .option(createBoolOption("disable_in_creative", false,
+                        () -> config.disableInCreative, val -> config.disableInCreative = val))
+                .group(ListOption.<String>createBuilder()
+                        .name(Component.translatable("config.reliable_gliders.updraft_disabled_dimensions"))
+                        .description(OptionDescription.of(Component.translatable("config.reliable_gliders.updraft_disabled_dimensions.tooltip")))
+                        .binding(List.of("minecraft:the_nether"), () -> config.updraftDisabledDimensions,
+                                val -> config.updraftDisabledDimensions = new java.util.ArrayList<>(val))
+                        .controller(StringControllerBuilder::create)
+                        .initial("")
+                        .build());
 
         return builder.category(general.build()).build().generateScreen(parent);
     }

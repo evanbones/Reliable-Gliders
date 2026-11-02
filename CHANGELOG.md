@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-11-01
+
+### Added
+
+- Added the `updraft_disabled_dimensions` config option to disable updrafts in specific dimensions.
+    - Updrafts are disabled in the Nether by default.
+- Added the `disable_in_creative` config option to stop the glider deploying in Creative mode.
+
+### Fixed
+
+- Fixed Gliders deploying in Spectator mode and while flying in Creative mode.
+- Fixed being unable to steer when the horizontal speed config option is above 1.0.
+
 ## [2.0.0] - 2026-10-16
 
 ### Added

@@ -60,7 +60,9 @@ public class GlidingState {
                 (ModConfig.get().equipToChestplate && player.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof GliderItem) ||
                 Services.PLATFORM.isGliderEquippedInAccessorySlot(player);
 
-        if (!holdingGlider || player.onGround() || player.isFallFlying() || player.isInWater() || player.onClimbable() || player.isPassenger()) {
+        if (!holdingGlider || player.isSpectator() || player.getAbilities().flying
+                || (ModConfig.get().disableInCreative && player.isCreative())
+                || player.onGround() || player.isFallFlying() || player.isInWater() || player.onClimbable() || player.isPassenger()) {
             if (wasGliding(player)) {
                 setGliding(player, false);
             }
